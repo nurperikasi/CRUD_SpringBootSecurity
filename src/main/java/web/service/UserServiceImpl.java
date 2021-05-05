@@ -1,6 +1,5 @@
 package web.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import web.Dao.RoleDao;
 import web.Dao.UserDao;
 import web.models.Role;
@@ -8,16 +7,14 @@ import web.models.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService{
 
-    final RoleDao roleDao;
+    private final RoleDao roleDao;
 
-    final UserDao userDao;
+    private final UserDao userDao;
 
     public UserServiceImpl(UserDao userDao, RoleDao roleDao) {
         this.userDao = userDao;
