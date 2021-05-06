@@ -1,5 +1,7 @@
 package web.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import web.Dao.RoleDao;
 import web.Dao.UserDao;
 import web.models.Role;
@@ -12,18 +14,24 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService{
 
+    private final BCryptPasswordEncoder passwordEncoder;
+
     private final RoleDao roleDao;
 
     private final UserDao userDao;
 
-    public UserServiceImpl(UserDao userDao, RoleDao roleDao) {
+    public UserServiceImpl(UserDao userDao, RoleDao roleDao, BCryptPasswordEncoder passwordEncoder) {
         this.userDao = userDao;
         this.roleDao = roleDao;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public List<Role> getAllRoles() {
-        return  roleDao.getAllRoles();
+        List<Role> roles = new ArrayList<>();
+        roles.add(roleDao.getById(1));
+        roles.add(roleDao.getById(2));
+        return roles;
     }
     @Override
     public List<User> allUsers() {
@@ -32,6 +40,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void add(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.add(user);
     }
 
